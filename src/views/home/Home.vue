@@ -1,31 +1,45 @@
 <template>
   <div id="home">
-    <!--调用首页导航栏组件  引入组件时在当前组件设置样式-->
-    <nav-bar class="home-nav">
-      <!--定制首页导航栏center部分-->
-      <template v-slot:center>
-        <div>购物街</div>
-      </template>
-    </nav-bar>
+    <!--导入头部导航栏组件（首页封装的）-->
+    <HomeNavBar></HomeNavBar>
+    <!--导入轮播图组件（首页封装的）-->
+    <HomeSwiper :banners="banners"></HomeSwiper>
   </div>
 </template>
 
 <script>
-//导入头部导航栏
-import NavBar from "components/common/navbar/NavBar";
+
+//导入首页拆分封装的头部导航栏
+import HomeNavBar from "views/home/childComps/HomeNavBar";
+//导入首页拆分封装的轮播图
+import HomeSwiper from "views/home/childComps/HomeSwiper";
+
+//导入Home拆分的数据获取JS  获取请求的轮播图数据
+import {getHomeMultidata} from "network/home";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      //存放轮播图数据
+      banners: []
+    }
+  },
+  //组件初始化钩子
+  created() {
+    //初始化轮播图数据
+    getHomeMultidata().then(response => {
+      this.banners = response["banner"];
+    }).catch(err => {
+      console.log("轮播图数据初始化失败")
+    })
+  },
+  //注册组件
   components: {
-    NavBar
+    HomeSwiper, HomeNavBar
   }
 }
 </script>
-
 <style scoped>
-/*设置头部导航栏背景和文字样式*/
-.home-nav {
-  background: var(--color-high-text);
-  color: #fff;
-}
+
 </style>
