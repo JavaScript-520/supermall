@@ -10,3 +10,8 @@ export function getHomeMultidata() {
 export function getHomeRecommend() {
   return request({url: "recommend/"});
 }
+
+//返回流行数据
+export function getHomePopularList() {
+  return request({url: "popular/"});
+}
