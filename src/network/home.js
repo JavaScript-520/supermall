@@ -5,3 +5,8 @@ import {request} from "./request";
 export function getHomeMultidata() {
   return request({url: "banner/"});
 }
+
+//返回请求过来的推荐数据
+export function getHomeRecommend() {
+  return request({url: "recommend/"});
+}

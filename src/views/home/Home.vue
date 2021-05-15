@@ -4,6 +4,8 @@
     <HomeNavBar></HomeNavBar>
     <!--导入轮播图组件（首页封装的）-->
     <HomeSwiper :banners="banners"></HomeSwiper>
+    <!--导入推荐栏组件（首页封装的）-->
+    <HomeRecommend :recommend="recommend"></HomeRecommend>
   </div>
 </template>
 
@@ -13,16 +15,22 @@
 import HomeNavBar from "views/home/childComps/HomeNavBar";
 //导入首页拆分封装的轮播图
 import HomeSwiper from "views/home/childComps/HomeSwiper";
+//导入首页推荐栏的组件
+import HomeRecommend from "views/home/childComps/HomeRecommend";
 
-//导入Home拆分的数据获取JS  获取请求的轮播图数据
+//导入Home拆分的数据获取JS  获取请求的轮播图数据、推荐数据
 import {getHomeMultidata} from "network/home";
+//导入Home拆分的数据获取JS  获取请求的推荐数据
+import {getHomeRecommend} from "network/home";
 
 export default {
   name: "Home",
   data() {
     return {
       //存放轮播图数据
-      banners: []
+      banners: [],
+      //存放推荐栏数据
+      recommend: []
     }
   },
   //组件初始化钩子
@@ -33,10 +41,15 @@ export default {
     }).catch(err => {
       console.log("轮播图数据初始化失败")
     })
+    //初始化推荐数据
+    getHomeRecommend().then(response => {
+      this.recommend = response.recommend;
+    })
+
   },
   //注册组件
   components: {
-    HomeSwiper, HomeNavBar
+    HomeSwiper, HomeNavBar, HomeRecommend
   }
 }
 </script>
