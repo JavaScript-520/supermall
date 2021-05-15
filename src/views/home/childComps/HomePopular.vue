@@ -46,7 +46,7 @@ export default {
 }
 
 .popular .title {
-  font: normal 600 14px "微软雅黑";
+  font: normal 600 16px "微软雅黑";
   position: absolute;
   left: 0;
   top: 5px;
