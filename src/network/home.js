@@ -15,3 +15,10 @@ export function getHomeRecommend() {
 export function getHomePopularList() {
   return request({url: "popular/"});
 }
+
+//返回商品数据 支持分页
+export function getHomeGoods(currentPage, reqObj) {
+  //整理地址
+  let url = "goods/" + reqObj + "/" + currentPage;
+  return request({url})
+}

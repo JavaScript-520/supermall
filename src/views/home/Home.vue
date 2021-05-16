@@ -80,11 +80,12 @@ import HomeRecommend from "views/home/childComps/HomeRecommend";
 import HomePopular from "views/home/childComps/HomePopular";
 
 //导入Home拆分的数据获取JS
-//获取请求的轮播图数据   获取请求的推荐数据  获取请求的流行数据
+//获取请求的轮播图数据   获取请求的推荐数据  获取请求的流行数据 获取请求的商品数据
 import {
   getHomeMultidata,
   getHomeRecommend,
-  getHomePopularList
+  getHomePopularList,
+  getHomeGoods
 } from "network/home";
 
 export default {
@@ -99,6 +100,12 @@ export default {
       popularList: [],
       //标签控制上要传入的数据标签
       tabControlItems: ['流行', '新款', '精选'],
+      //商品列表展示数据
+      goods: {
+        'pop': {page: 0, list: []},
+        'news': {page: 0, list: []},
+        'sell': {page: 0, list: []}
+      }
     }
   },
   //组件初始化钩子   注意初始化方法里面尽量不要写逻辑代码
@@ -109,6 +116,10 @@ export default {
     this.getHomeRecommend();
     //初始化流行数据
     this.getHomePopularList();
+    //初始化首页商品数据
+    this.getHomeGoods(this.goods['pop']['page'] + 1, 'pop');
+    this.getHomeGoods(this.goods['news']['page'] + 1, 'news');
+    this.getHomeGoods(this.goods['sell']['page'] + 1, 'sell');
   },
   //组件方式
   methods: {
@@ -134,6 +145,16 @@ export default {
         this.popularList = response['popular'];
       }).catch(err => {
         console.log("流行数据初始化失败")
+      })
+    },
+    //获取商品数据
+    getHomeGoods(currentPage, reqObj) {
+      getHomeGoods(currentPage, reqObj).then(response => {
+        for (let index in response[reqObj]) {
+          this.goods['pop']['list'].push(response[reqObj][index])
+        }
+      }).catch(err => {
+        console.log("商品初始化失败")
       })
     }
   },
