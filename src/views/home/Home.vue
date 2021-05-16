@@ -79,12 +79,13 @@ import HomeRecommend from "views/home/childComps/HomeRecommend";
 //导入本周流行组件
 import HomePopular from "views/home/childComps/HomePopular";
 
-//导入Home拆分的数据获取JS  获取请求的轮播图数据
-import {getHomeMultidata} from "network/home";
-//导入Home拆分的数据获取JS  获取请求的推荐数据
-import {getHomeRecommend} from "network/home";
-//导入Home拆分的数据获取JS  获取请求的流行数据
-import {getHomePopularList} from "network/home";
+//导入Home拆分的数据获取JS
+//获取请求的轮播图数据   获取请求的推荐数据  获取请求的流行数据
+import {
+  getHomeMultidata,
+  getHomeRecommend,
+  getHomePopularList
+} from "network/home";
 
 export default {
   name: "Home",
@@ -100,26 +101,41 @@ export default {
       tabControlItems: ['流行', '新款', '精选'],
     }
   },
-  //组件初始化钩子
+  //组件初始化钩子   注意初始化方法里面尽量不要写逻辑代码
   created() {
     //初始化轮播图数据
-    getHomeMultidata().then(response => {
-      this.banners = response["banner"];
-    }).catch(err => {
-      console.log("轮播图数据初始化失败")
-    })
+    this.getHomeMultidata();
     //初始化推荐数据
-    getHomeRecommend().then(response => {
-      this.recommend = response.recommend;
-    }).catch(err => {
-      console.log("推荐数据初始化失败")
-    })
+    this.getHomeRecommend();
     //初始化流行数据
-    getHomePopularList().then(response => {
-      this.popularList = response['popular'];
-    }).catch(err => {
-      console.log("流行数据初始化失败")
-    })
+    this.getHomePopularList();
+  },
+  //组件方式
+  methods: {
+    ////获取轮播图数据
+    getHomeMultidata() {
+      getHomeMultidata().then(response => {
+        this.banners = response["banner"];
+      }).catch(err => {
+        console.log("轮播图数据初始化失败")
+      })
+    },
+    getHomeRecommend() {
+      //获取推荐数据
+      getHomeRecommend().then(response => {
+        this.recommend = response.recommend;
+      }).catch(err => {
+        console.log("推荐数据初始化失败")
+      })
+    },
+    //获取流行数据
+    getHomePopularList() {
+      getHomePopularList().then(response => {
+        this.popularList = response['popular'];
+      }).catch(err => {
+        console.log("流行数据初始化失败")
+      })
+    }
   },
   //注册组件
   components: {
