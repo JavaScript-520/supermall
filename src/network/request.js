@@ -7,7 +7,7 @@ export function request(config) {
   //创建一个请求对象
   let instance = axios.create({
     //设置局部基本的请求路径前缀
-    baseURL: "http://127.0.0.1:8082/",
+    baseURL: "http://192.168.197.7:8082/",
     //设置局部的超时时间
     timeout: 3000
   });

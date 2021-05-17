@@ -10,6 +10,8 @@
     <HomePopular :popularList="popularList"></HomePopular>
     <!--导入标签控制组件到首页上-->
     <TabControl :tabControlItems="tabControlItems" class="tabCon"></TabControl>
+    <!--调用商品展示组件-->
+    <GoodsList :goods="goods['pop']['list']"></GoodsList>
     <!--临时加上可以看到下滑效果-->
     <ul>
       <li>1</li>
@@ -69,6 +71,8 @@
 <script>
 //导入标签控制组件
 import TabControl from "components/content/tabControl/TabControl";
+//导入商品组件
+import GoodsList from "components/content/goods/GoodsList";
 
 //导入首页拆分封装的头部导航栏
 import HomeNavBar from "views/home/childComps/HomeNavBar";
@@ -118,6 +122,7 @@ export default {
     this.getHomePopularList();
     //初始化首页商品数据
     this.getHomeGoods(this.goods['pop']['page'] + 1, 'pop');
+    this.getHomeGoods(this.goods['pop']['page'] + 1, 'pop');
     this.getHomeGoods(this.goods['news']['page'] + 1, 'news');
     this.getHomeGoods(this.goods['sell']['page'] + 1, 'sell');
   },
@@ -151,7 +156,7 @@ export default {
     getHomeGoods(currentPage, reqObj) {
       getHomeGoods(currentPage, reqObj).then(response => {
         for (let index in response[reqObj]) {
-          this.goods['pop']['list'].push(response[reqObj][index])
+          this.goods[reqObj]['list'].push(response[reqObj][index])
         }
       }).catch(err => {
         console.log("商品初始化失败")
@@ -160,7 +165,7 @@ export default {
   },
   //注册组件
   components: {
-    TabControl,
+    TabControl, GoodsList,
     HomeSwiper, HomeNavBar, HomeRecommend, HomePopular
   }
 }
