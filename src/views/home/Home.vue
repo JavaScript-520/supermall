@@ -9,9 +9,9 @@
     <!--导入本周流行组件（首页封装）-->
     <HomePopular :popularList="popularList"></HomePopular>
     <!--导入标签控制组件到首页上-->
-    <TabControl :tabControlItems="tabControlItems" class="tabCon"></TabControl>
+    <TabControl :tabControlItems="tabControlItems" class="tabCon" @tabClick="tabClick"></TabControl>
     <!--调用商品展示组件-->
-    <GoodsList :goods="goods['pop']['list']"></GoodsList>
+    <GoodsList :goods="goodsListData"></GoodsList>
     <!--临时加上可以看到下滑效果-->
     <ul>
       <li>1</li>
@@ -109,7 +109,9 @@ export default {
         'pop': {page: 0, list: []},
         'news': {page: 0, list: []},
         'sell': {page: 0, list: []}
-      }
+      },
+      //具体要准备展示的商品名称，后面根据点击标签控制来更改名称   默认第一个pop展示和标签控制的默认下标0对应
+      currentGoods: "pop"
     }
   },
   //组件初始化钩子   注意初始化方法里面尽量不要写逻辑代码
@@ -122,12 +124,29 @@ export default {
     this.getHomePopularList();
     //初始化首页商品数据
     this.getHomeGoods(this.goods['pop']['page'] + 1, 'pop');
-    this.getHomeGoods(this.goods['pop']['page'] + 1, 'pop');
     this.getHomeGoods(this.goods['news']['page'] + 1, 'news');
     this.getHomeGoods(this.goods['sell']['page'] + 1, 'sell');
   },
   //组件方式
   methods: {
+    //根据点击标签控制来设置具体的点中的位置  此方法由子组件传来
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentGoods = 'pop';
+          break;
+        case 1:
+          this.currentGoods = 'news';
+          break;
+        case 2:
+          this.currentGoods = 'sell';
+          break;
+      }
+      console.log(this.currentGoods)
+    },
+    /***
+     * 下面关于网络请求方法
+     */
     ////获取轮播图数据
     getHomeMultidata() {
       getHomeMultidata().then(response => {
@@ -161,6 +180,13 @@ export default {
       }).catch(err => {
         console.log("商品初始化失败")
       })
+    }
+  },
+  //计算属性
+  computed: {
+    //获取指定位置商品的数据
+    goodsListData() {
+      return this.goods[this.currentGoods]['list']
     }
   },
   //注册组件

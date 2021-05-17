@@ -29,8 +29,11 @@ export default {
   methods: {
     //被出发时根据传来的下标设置到本身的data里
     clickIndex(index) {
+      //设置具体的激活栏位置
       this.isActiveIndex = index;
-    }
+      //传出事件，告诉父组件切换了导航栏标签，告知切换数据
+      this.$emit("tabClick", this.isActiveIndex)
+    },
   }
 }
 </script>
@@ -40,9 +43,9 @@ export default {
   height: 40px;
   display: flex;
   text-align: center;
-  margin-top:5px;
+  margin-top: 5px;
   background: #fff;
-
+  z-index: 9;
 }
 
 #tabControl > div {
