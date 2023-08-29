@@ -1,0 +1,27 @@
+version = 1
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = [
+    "vue",
+    "react"
+  ]
+  environment = [
+    "jquery",
+    "nodejs",
+    "browser",
+    "jest",
+    "mocha",
+    "vitest",
+    "cypress",
+    "mongo",
+    "jasmine"
+  ]
+
+[[analyzers]]
+name = "java"
+
+  [analyzers.meta]
+  runtime_version = "8"
